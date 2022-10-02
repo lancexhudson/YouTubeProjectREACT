@@ -5,8 +5,8 @@ import YTSearch from 'youtube-api-search';
 import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
 import VideoDetail from './components/video_detail';
-const API_KEY = 'AIzaSyBNw2Kjkwg0zQoDUyNDzw6JTztkUF-Wb80';
-
+// require('dotenv').config()
+// const API_KEY = process.env.API_KEY;
 
 class App extends Component {
     constructor(props) {
@@ -17,10 +17,10 @@ class App extends Component {
             selectedVideo: null
         };
         this.videoSearch('guitar');
-
     }
 
     videoSearch(term) {
+       //  YTSearch({ key: process.env.API_KEY, term: term }, (videos) => {
         YTSearch({ key: API_KEY, term: term }, (videos) => {
             this.setState({ 
                 videos: videos,
@@ -33,7 +33,8 @@ class App extends Component {
         //debounce runs every 300 milliseconds 
         const videoSearch = _.debounce((term) => { this.videoSearch(term) }, 300);
 
-    return ( <div>
+    return ( 
+    <div>
         <SearchBar onSearchTermChange={term => this.videoSearch(term)} />
         <VideoDetail video={this.state.selectedVideo} />
         <VideoList 
@@ -43,6 +44,4 @@ class App extends Component {
     );
 }
 }
-
-// renders component to the DOM. second argument determines location
 ReactDOM.render(<App />, document.querySelector('.container')); 
